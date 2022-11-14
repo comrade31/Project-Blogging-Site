@@ -8,9 +8,7 @@ const authorModel = require("../models/authorModel")
 const createBlog = async function(req,res){
 
     try{
-           
-
-       
+        
         const requestBody  = req.body
         const Id = req.body.authorId
         
@@ -59,7 +57,6 @@ const createBlog = async function(req,res){
      return res.status(500).send({status:false,msg:err.msg })
 
     }
-
 
 } 
 
