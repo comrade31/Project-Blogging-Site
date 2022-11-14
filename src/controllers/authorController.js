@@ -33,7 +33,7 @@ let createAuthor = async function (req, res) {
 
         //--------------------- Email validation --------------------------
 
-        else if (!valid.isEmail(email))
+        else if (!valid.isValidEmail(email))
          { return res.status(400).send({ status: false, msg: "Email is not vaild" })}
 
 

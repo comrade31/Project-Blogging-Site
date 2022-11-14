@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const isValid = function (value) {
     if (typeof value === 'undefined' || value === null) return false;
 
@@ -23,12 +22,3 @@ const isValidRequestBody = function
 
 
 module.exports={isValid,isValidEmail,isValidRequestBody}
-=======
-function isEmail(email) {
-    var emailFormat = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-    if (email !== '' && email.match(emailFormat)) { return true; }
-    return false;
-}
-
-module.exports.isEmail = isEmail
->>>>>>> 8e100dffda382c89a659ccf7d3ba24b85d8cf77c

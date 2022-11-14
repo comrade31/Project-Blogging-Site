@@ -1,11 +1,7 @@
 const express= require("express")
 const bodyParser = require ("body-parser")
 const {default:mongoose} = require ("mongoose")
-<<<<<<< HEAD
- const router = require("./routes/route")
-=======
 const router = require("./routes/route")
->>>>>>> 8e100dffda382c89a659ccf7d3ba24b85d8cf77c
 const app = express()
 
 
