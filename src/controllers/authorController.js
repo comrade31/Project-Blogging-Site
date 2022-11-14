@@ -4,7 +4,7 @@ let valid = require("../validator/validator")
 
 let createAuthor = async function (req, res) {
     let Data = req.body
-    const { fname, lname, title, email, password } = Data
+    const { fname , lname , title , email , password } = Data
     const isEmailAlreadyused = await authorModel.findOne({ email: email })
     const objKey = Object.keys(Data).length
     try {
@@ -34,7 +34,7 @@ let createAuthor = async function (req, res) {
         //--------------------- Email validation --------------------------
 
         else if (!valid.isEmail(email))
-         { return res.status(400).send({ status: false, msg: "Email is not vaild" }) }
+         { return res.status(400).send({ status: false, msg: "Email is not vaild" })}
 
 
         else if (isEmailAlreadyused)
