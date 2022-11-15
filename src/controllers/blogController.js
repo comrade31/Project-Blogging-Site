@@ -56,4 +56,52 @@ const createBlog = async function(req,res){
 } 
 
 
-module.exports={createBlog}
+const blogDetails = async function (req, res) {
+    try {
+        const data = req.query
+        const {authorId,category,tags,subcategory}=data
+        if(!isValidObjectId(authorId)){
+            return res.status(400).send({status:false,msg:"provide valid id"})
+        }
+
+        const blogs = await blogModel.find({$and : [data, { isDeleted: false }, { isPublished: true }]}).populate("authorId")
+        if (blogs.length == 0) {
+            return res.status(404).send({ status: false, msg: "No blogs Available." })
+        }
+        return res.status(200).send({ status: true,count:blogs.length, data: blogs });
+    }
+
+     catch (error) {
+        return res.status(500).send({ status: false, msg: error.message});
+    }
+}
+
+
+const deleteByQuery= async function(req,res){
+ try
+    {  
+     const data=req.query 
+   const {category, authorId, tags, subcategory,isPublished}=data
+   if(Object.keys(data).length==0){
+    return res.status(400).send({status:false,msg:"no data is provided"})
+   }
+   if(isPublished==true){
+    return res.status(400).send({status:false,msg:"blog is published"})
+   }
+
+   const deletedBlogs=await blogModel.updateMany(
+    data,
+   {isDeleted:true,deletedAt:new Date()},
+   {new:true}
+    )
+    if(!deletedBlogs){
+        return res.status(404).send({status:false,msg:"blog not found"})
+    }
+    return res.status(200).send({status:true,msg:deletedBlogs})
+}
+catch(error){
+    return res.status(500).send({status:false,msg:error.message})
+}
+}
+
+module.exports={createBlog,blogDetails,deleteByQuery}

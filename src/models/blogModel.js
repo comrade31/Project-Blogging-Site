@@ -45,16 +45,7 @@ const blogSchema = new mongoose.Schema(
                 type: [String]
 
             },
-        
-        createdAt: {
-            type: Date,
-            
-        },
-      updatedAt: {
-            type: Date,
-          
-        },
-        isPublished: {
+            isPublished: {
             type: Boolean,
             trim: true,
             lowercase: true,
