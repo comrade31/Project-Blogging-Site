@@ -1,6 +1,9 @@
 const blogModel = require("../models/blogModel")
+
+
 const Valid = require("../validator/validator")
 const {isValidObjectId} = require("mongoose")
+
 const authorModel = require("../models/authorModel")
 
 const createBlog = async function(req,res){
@@ -38,6 +41,7 @@ const createBlog = async function(req,res){
         }
         
         const validId = await authorModel.findById(Id)
+        
         if (validId) {
             const blogCreated = await blogModel.create(requestBody)
             return res.status(201).send({ status: true, msg: 'blog created succesfully ', data: blogCreated })
@@ -65,8 +69,7 @@ const blogDetails = async function (req, res) {
     }
 
      catch (error) {
-        return res.status(500).send({ status: false, msg: error.message });
-    }
+        return res.status(500).send({ status: false, msg: error.message});}
 }
 
 //============================================delete blog by path param ==============================================================
@@ -83,3 +86,56 @@ const deleteBlog = async function (req,res) {
 }};
 
 module.exports={createBlog,blogDetails,deleteBlog}
+
+
+
+//------------------------------------------putApi----------------------------
+
+const updateBlog = async function (req, res) {
+
+    try {
+           const blogId = req.params.blogId
+           const checkId = await blogModel.findById(blogId)
+           if(checkId){
+              const requestBody=req.body
+           const {title, body, tags, subcategory ,isPublished}= requestBody
+           if (!Valid.isValidRequestBody(requestBody)) {
+            return res.status(400).send({ status: false, msg: " Pls Provide requestBody" })
+        }
+        if (!Valid.isValid(title)) {
+            return res.status(400).send({ status: false, msg: " Pls Provide title for blog" })
+        }
+        if (!Valid.isValid(body)) {
+            return res.status(400).send({ status: false, msg: "Body is Mandtory" })
+        }
+        if (!Valid.isValid(tags)) {
+            return res.status(400).send({ status: false, msg: "Pls provide tags of blog" })
+        }
+        if (!Valid.isValid(subcategory)) {
+            return res.status(400).send({ status: false, msg: "Pls provide subCategory of blog" })
+        }
+        if (!Valid.isValid(isPublished)) {
+            return res.status(400).send({ status: false, msg: "Pls provide  blog is published or not " })
+        }
+
+        let savedData= await blogModel.findOneAndUpdate({_id:blogId},{ $set: { "title": req.body.title, "body": req.body.body, "category": req.body.category },
+        $push: { "tags": req.body.tags, "subcategory": req.body.subcategory } }
+        ,{new:true})
+
+        res.status(200).send({status:true,msg:"blog updated successfuly",data:savedData})
+    }else{
+        return res.status(404).send({status:false,msg:"blog id does not exist "})
+    }
+
+    } catch (error) {
+        return res.status(500).send({status:false,msg:error.message})
+
+    }
+
+
+
+}
+
+
+
+module.exports={createBlog,blogDetails,updateBlog}
