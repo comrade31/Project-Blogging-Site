@@ -21,7 +21,7 @@ const authorSchema = new mongoose.Schema({
       lowercase: true,
       uppercase: true,
       required: "Title is required",
-      enum: ['Mr', "Mrs", "Miss"],
+      enum: ["Mr", "Mrs", "Miss"],
    },
 
    email: {
