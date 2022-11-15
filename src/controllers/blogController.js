@@ -59,9 +59,25 @@ const createBlog = async function(req,res){
      return res.status(500).send({status:false,msg:err.msg })
 
     }
-
-
 } 
 
+const blogDetails = async function (req, res) {
+    try {
+        const data = req.query
 
-module.exports={createBlog}
+        const blogs = await blogModel.find({$and : [data, { isDeleted: false }, { isPublished: true }]}).populate("authorId")
+        if (blogs.length == 0) {
+            return res.status(404).send({ status: false, msg: "No blogs Available." })
+        }
+        return res.status(200).send({ status: true,count:blogs.length, data: blogs });
+    }
+
+     catch (error) {
+        return res.status(500).send({ status: false, msg: error.message})
+    }
+}
+
+
+
+module.exports={createBlog,blogDetails}
+
