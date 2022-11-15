@@ -57,6 +57,8 @@ const createBlog = async function(req,res){
 
 
 } 
+
+
 const blogDetails = async function (req, res) {
     try {
         const data = req.query
@@ -72,7 +74,8 @@ const blogDetails = async function (req, res) {
         return res.status(500).send({ status: false, msg: error.message});}
 }
 
-//============================================delete blog by path param ==============================================================
+//==============delete blog by path param =================================
+
 const deleteBlog = async function (req,res) {
 
     try{
@@ -138,4 +141,4 @@ const updateBlog = async function (req, res) {
 
 
 
-module.exports={createBlog,blogDetails,updateBlog}
+module.exports={createBlog,blogDetails,updateBlog,deleteBlog}
