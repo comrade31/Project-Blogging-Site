@@ -3,12 +3,10 @@ const Valid = require("../validator/validator")
 const {isValidObjectId} = require("mongoose")
 const authorModel = require("../models/authorModel")
 
-
-
 const createBlog = async function(req,res){
 
     try{
-        
+           
         const requestBody  = req.body
         const Id = req.body.authorId
         
@@ -42,8 +40,6 @@ const createBlog = async function(req,res){
             return res.status(400).send({status:false,msg:" Pls provide author Id"})
         }
         
-
-
         const validId = await authorModel.findById(Id)
         if (validId) {
             const blogCreated = await blogModel.create(requestBody)
@@ -58,7 +54,23 @@ const createBlog = async function(req,res){
 
     }
 
+
 } 
+const blogDetails = async function (req, res) {
+    try {
+        const data = req.query
+
+        const blogs = await blogModel.find({$and : [data, { isDeleted: false }, { isPublished: true }]}).populate("authorId")
+        if (blogs.length == 0) {
+            return res.status(404).send({ status: false, msg: "No blogs Available." })
+        }
+        return res.status(200).send({ status: true,count:blogs.length, data: blogs });
+    }
+
+     catch (error) {
+        return res.status(500).send({ status: false, msg: error.message });
+    }
+}
 
 
-module.exports={createBlog}
+module.exports={createBlog,blogDetails}

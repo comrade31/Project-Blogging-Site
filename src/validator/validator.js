@@ -6,19 +6,10 @@ const isValid = function (value) {
     return true;
 }
 
-
-
-function isValidEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
-
-
 const isValidRequestBody = function
     (requestBody) {
     return Object.keys(requestBody).length >
         0;
 }
 
-
-module.exports={isValid,isValidEmail,isValidRequestBody}
+module.exports={isValid,isValidRequestBody}
