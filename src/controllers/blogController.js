@@ -1,6 +1,9 @@
 const blogModel = require("../models/blogModel")
+
+
 const Valid = require("../validator/validator")
 const {isValidObjectId} = require("mongoose")
+
 const authorModel = require("../models/authorModel")
 
 
@@ -47,6 +50,7 @@ const createBlog = async function(req,res){
 
 
         const validId = await authorModel.findById(Id)
+        
         if (validId) {
             const blogCreated = await blogModel.create(requestBody)
             return res.status(201).send({ status: true, msg: 'blog created succesfully ', data: blogCreated })
