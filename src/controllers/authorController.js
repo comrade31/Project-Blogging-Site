@@ -9,7 +9,7 @@ let createAuthor = async function (req, res) {
     const objKey = Object.keys(Data).length
     try {
 
- //-----------------------Data in body || not-------------------------------
+ //-----------------------Data in body || not---------------------------------
 
         if (objKey === 0)
          { return res.satus(400).send({ status: false, msg: "No Data in Body" }) }
@@ -33,9 +33,7 @@ let createAuthor = async function (req, res) {
 
         //--------------------- Email validation --------------------------
 
-        else if (!valid.isValidEmail(email))
-         { return res.status(400).send({ status: false, msg: "Email is not vaild" })}
-
+        
 
         else if (isEmailAlreadyused)
          { return res.status(400).send({ status: false, msg: 'Email is already used' }) }

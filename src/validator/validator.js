@@ -3,7 +3,7 @@ const isValid = function (value) {
 
     if (typeof value === 'string' && value.trim().length === 0) return false
 
-    return true;
+    return true; 
 }
 
 const isValidRequestBody = function
