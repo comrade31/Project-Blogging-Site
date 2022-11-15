@@ -26,10 +26,10 @@ let createAuthor = async function (req, res) {
         { return res.status(400).send({ status: false, msg: "Title is required" }) }
 
         else if (!email) 
-        { return res.satus.send({ status: false, msg: "Email is required" }) }
+        { return res.status(400).send({ status: false, msg: "Email is required" }) }
 
         else if (!password) 
-        { return res.satus.send({ status: false, msg: "Password is required" }) }
+        { return res.status(400).send({ status: false, msg: "Password is required" }) }
 
         //--------------------- Email validation --------------------------
 
@@ -46,7 +46,7 @@ let createAuthor = async function (req, res) {
         }
     }
     catch (error) {
-        res.staus(500).send({ msz: "Error", error: error.message })
+        res.status(500).send({ msz: "Error", error: error.message })
     }
 }
 

@@ -6,14 +6,10 @@ const {isValidObjectId} = require("mongoose")
 
 const authorModel = require("../models/authorModel")
 
-
-
 const createBlog = async function(req,res){
 
     try{
            
-
-       
         const requestBody  = req.body
         const Id = req.body.authorId
         
@@ -47,8 +43,6 @@ const createBlog = async function(req,res){
             return res.status(400).send({status:false,msg:" Pls provide author Id"})
         }
         
-
-
         const validId = await authorModel.findById(Id)
         
         if (validId) {
@@ -66,48 +60,21 @@ const createBlog = async function(req,res){
 
 
 } 
-
-
 const blogDetails = async function (req, res) {
     try {
-        
-        if (req.query.authorId || req.query.tags || req.query.category || req.query.subCategory) {
-            let authorId = req.query.authorId
-            let tags = req.query.tags
-            let category = req.query.category
-            let subCategory = req.query.subCategory
-            let obj = {}
-            if (authorId) {
-                obj.authorId = authorId
+        const data = req.query
 
-            }
-            if (tags) {
-                obj.tags = tags
-            }
-            if (category) {
-                obj.category = category
-            }
-            if (subCategory) {
-                obj.subCategory = subCategory
-            }
-            obj.isDeleted = false
-            obj.isPublished = true
-           
-            const detail = await blogModel.find(obj)
-            if (!detail) {
-                return res.status(400).send({ status: false, msg: "given data is invalid " })
-            }
-            else {
-                return res.status(200).send({ status: true, msg: "data fetch successfully", data: detail })
-            }
+        const blogs = await blogModel.find({$and : [data, { isDeleted: false }, { isPublished: true }]}).populate("authorId")
+        if (blogs.length == 0) {
+            return res.status(404).send({ status: false, msg: "No blogs Available." })
         }
-
-      
-
+        return res.status(200).send({ status: true,count:blogs.length, data: blogs });
     }
-    catch (err) {
-        return res.status(500).send({ status: false, msg: err.msg })
-    }
+
+     catch (error) {
+        return res.status(500).send({ status: false, msg: error.message });
+    }
 }
+
 
 module.exports={createBlog,blogDetails}

@@ -5,57 +5,80 @@ const blogSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: true
-
+            trim: true,
+            lowercase: true,
+            uppercase: true,
+            required: "Title is required"
         },
         body: {
             type: String,
-            require: true
+            trim: true,
+            lowercase: true,
+            uppercase: true,
+            require: "Body is required"
         },
         authorId: {
             type: ObjectId,
-            required: true,
+            required:" AuthorId is required",
+            trim: true,
+            lowercase: true,
+            uppercase: true,
             ref: "Author"
 
         },
         tags: {
-            type:[String],
-         },
+            trim: true,
+            lowercase: true,
+            uppercase: true,
+            type: [String],
+        },
 
         category: {
             type: String,
-            required: true
+            trim: true,
+            lowercase: true,
+            uppercase: true,
+            required: "Category is required"
         },
-        subcategory: 
-            {
-                type: [String]
+        subcategory:
+        {
+            trim: true,
+            lowercase: true,
+            uppercase: true,
+            type: [String]
 
-            },
-        
-        createdAt: {
-            type: Date,
-            
-        },
-      updatedAt: {
-            type: Date,
-          
         },
         isPublished: {
             type: Boolean,
+            trim: true,
+            lowercase: true,
+            uppercase: true,
             default: false,
         },
 
         publishedAt: {
+            trim: true,
+            lowercase: true,
+            uppercase: true,
             type: Date,
+                default: Date.now()
         },
 
         isDeleted: {
+            trim: true,
+            lowercase: true,
+            uppercase: true,
             type: Boolean,
-            default: false,
+            default: false
         },
 
         deletedAt: {
+            trim: true,
+            lowercase: true,
+            uppercase: true,
             type: Date,
+                default: Date.now()
+
         },
     },
     { timestamps: true }
