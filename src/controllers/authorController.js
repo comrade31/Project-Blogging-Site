@@ -9,7 +9,7 @@ let createAuthor = async function (req, res) {
     const objKey = Object.keys(Data).length
     try {
 
- //-----------------------Data in body || not-------------------------------
+ //-----------------------Data in body || not---------------------------------
 
         if (objKey === 0)
          { return res.satus(400).send({ status: false, msg: "No Data in Body" }) }

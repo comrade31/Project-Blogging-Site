@@ -4,14 +4,11 @@ const {isValidObjectId} = require("mongoose")
 const authorModel = require("../models/authorModel")
 
 const createBlog = async function(req,res){
-
-    try{
-           
+    try{  
         const requestBody  = req.body
         const Id = req.body.authorId
         
         const { title,authorId ,body,tags,  category , subcategory } = requestBody
-       
 
         if(!Valid.isValidRequestBody(requestBody)){
             return res.status(400).send({status:false,msg:" Pls Provide requestBody"})
@@ -72,5 +69,17 @@ const blogDetails = async function (req, res) {
     }
 }
 
+//============================================delete blog by path param ==============================================================
+const deleteBlog = async function (req,res) {
 
-module.exports={createBlog,blogDetails}
+    try{
+        let blogId =req.params.blogId
+        let deleteBlog=await blogModel.findByIdAndUpdate({_id:blogId},{$set:{isDeleted:true}},{new: true})
+        res.status(200).send({status:true, msg: deleteBlog})
+        if(!deleteBlog) res.status(404).send({status:false, msg:"Blogs are not found"})
+    }
+    catch(error){res.status(500).send({msg:error})
+    console.log({msg: error})
+}};
+
+module.exports={createBlog,blogDetails,deleteBlog}

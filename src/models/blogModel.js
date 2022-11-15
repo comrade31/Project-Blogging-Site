@@ -71,14 +71,12 @@ const blogSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-
         deletedAt: {
             trim: true,
             lowercase: true,
             uppercase: true,
             type: Date,
                 default: Date.now()
-
         },
     },
     { timestamps: true }
