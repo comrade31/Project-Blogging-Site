@@ -6,20 +6,25 @@ const authorSchema = new mongoose.Schema({
       trim: true,
       lowercase: true,
       uppercase: true,
-      required: "Fname is required"
+      minlength: 2,
+      maxlength: 20,
+      required: "Fname is required",
+     // match:  /^\\w+$/
+
    },
    lname: {
       type: String,
       trim: true,
       lowercase: true,
       uppercase: true,
-      required: "Lname is required"
+      minlength: 2,
+      maxlength: 20,
+      required: "Lname is required",
+     // match: /^\\w+$/
    },
    title: {
       type: String,
       trim: true,
-      lowercase: true,
-      uppercase: true,
       required: "Title is required",
       enum: ["Mr", "Mrs", "Miss"],
    },
@@ -36,9 +41,9 @@ const authorSchema = new mongoose.Schema({
    password: {
       type: String,
       trim: true,
-      lowercase: true,
-      uppercase: true,
-      required: "Password is required"
+      required: "Password is required",
+     // match: /^(?=.\d)(?=.[!@#$%^&])(?=.[a-z])(?=.*[A-Z]).{8,}$/
+
    }
 
 }, { timestamps: true });
