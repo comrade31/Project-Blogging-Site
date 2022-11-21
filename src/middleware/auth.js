@@ -1,53 +1,54 @@
-const jwt = require("jsonwebtoken");
-const blogModel = require("../models/blogModel");
+let jwt = require("jsonwebtoken")
+let blogModel = require("../models/blogModel")
+let  mongoose = require("mongoose")
 
-// # Authentication Middleware ==>>
 
-const auth1 = function (req, res, next) {
+//-----------<<<<<<<--------------- Authentication----------------->>>>>>>>------------------//
+
+const authentication = function (req, res, next) {
     try {
         let token = req.headers["x-api-key"];
-        if (!token) return res.status(401).send({ status: false, msg: " token must be present for authentication " })
+        if (!token)
+         return res.status(401).send({ status: false, msg: "Please Provide Token" })
 
-       jwt.verify(token, "BlogProject", function (err, decodedToken) {
+        jwt.verify(token, "BlogProject", function (err, decodedToken) {
             if (err) {
                 return res.status(400).send({ status: false, msg: "token invalid" });
             } 
-            // if(Date.now()>decodedToken.exp*1000) {
-            //     return res.status(400).send({ status: false, msg: "token expired" });
-            // }
+
                 req.decodedToken = decodedToken
                 next() 
         })
-    } catch (err) {
-        res.status(500).send({ status: false, msg: err.message })
+    } catch (error) {
+        res.status(500).send({ status: false, msg: error.message })
     }
 }
 
+//-----------<<<<<<<--------------- Authorization----------------->>>>>>>>------------------//
 
-// # Authorisation ==>>
-
-let auth2 = async function logMethod(req, res, next) {
-    try {
-        let blogId = req.params.blogId
-        let findblog = await blogModel.findById(blogId)
-        if(!findblog)
-        {return res.status(404).send("status:false, msg:Author's blog not found")}
-        let authorId = findblog.authorId
-
-        let token = req.headers["x-api-key"]
-        let decodedToken = jwt.verify(token,"BlogProject")
+const authorisation = async function (req, res, next) {
+    try{
         
-        let UsertobeModified = decodedToken.userId
+        let blogId = req.params.blogId
+        let authorLoggedIn = req.decodedToken.authorId
+    
+        let findBlog = await blogModel.findById(blogId)
 
-        if (!authorId === UsertobeModified)
-            return res.status(403).send({ stauts: false, msg: "User and user's-token in not matched" })
+        if(!findBlog)
+        {return res.status(404).send("status:false, msg: Author's blog not found")}
+        let authorId = findBlog.authorId
+        
+    
+        if (!authorId === authorLoggedIn)
+            return res.status(403).send({stauts: false, msg:"User and user's-token in not matched"})
         next()
+
+     }
+    catch(error) {
+        return res.status(500).send({ status: false, msg: error.message});
     }
-    catch (error) {
-        res.status(500).send({ msz: "Error", error: error.message })
-    }
+    };
 
-}
+module.exports.authorisation = authorisation
+module.exports.authentication = authentication
 
-
-module.exports = { auth1, auth2 }
