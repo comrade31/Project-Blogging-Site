@@ -172,11 +172,12 @@ const deleteByQuery = async function (req, res) {
         } else
         {
        
-            let authorId = req.query.authorId
+            let authorId = req.query.authorId   
             let category = req.query.category
             let tags = req.query.tags
             let subcategory = req.query.subcategory
-            let isPublished = req.query.isPublished
+   
+
             let obj = {};
             if (authorId) {
                 obj.authorId = authorId;
@@ -184,7 +185,6 @@ const deleteByQuery = async function (req, res) {
             if (category) {
                 obj.category = category
             }
-
             if (tags) {
                 obj.tags = tags
             }
@@ -232,7 +232,7 @@ const deleteBlog = async function (req, res) {
         let deleteBlog = await blogModel.findByIdAndUpdate({ _id: blogId }, { $set: { isDeleted: true } }, { new: true })
         res.status(200).send({ status: true, msg: deleteBlog })
         
-        if (!deleteBlog) res.status(404).send({ status: false, msg: "Blogs are not found" })
+        if (!deleteBlog) res.status(404).send({ status: false, msg: "Blogs are not found " })
     }
 
      catch (error) {
